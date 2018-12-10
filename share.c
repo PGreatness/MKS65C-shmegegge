@@ -26,17 +26,16 @@ int main() {
     }
     fclose(f);
 
-    if (key = ftok("./testfile", 'R') == -1) {
+    if ((key = ftok("./testfile", 'R')) == -1) {
         perror("ftok");
         exit(1);
     }
 
     printf("This is key: %i\n", key);
 
-    if (shmid = shmget(key, size, 0644 | IPC_CREAT) == -1) {
+    if ((shmid = shmget(key, size, 0644 | IPC_CREAT)) == -1) {
         perror("shmget");
         exit(1);
-        
     }
     printf("This is shmid: %i\n", shmid);
     data = shmat(shmid, (void *)0, 0);
@@ -52,8 +51,8 @@ int main() {
     // }
 
     printf("Would you like to read or write to the file?\nRead\nWrite\t(DEFAULT)\n");
-    fgets(mode, 10, stdin);
-    mode[strcspn(mode, "\n")] = '\0';
+    scanf("%s", mode);
+    //mode[strcspn(mode, "\n")] = '\0';
 
     if (strcmp(mode, "Read") == 0 || strcmp(mode, "read") == 0) {
         printf("Reading from the file...\n");
@@ -70,7 +69,7 @@ int main() {
     char * dnd;
     printf("Would you like to disconnect or destroy?\nDisconnect\t(DEFAULT)\nDestroy\n");
     fgets(dnd, 20, stdin);
-    dnd[strcspn(dnd, "\n")] = '\0';
+    //dnd[strcspn(dnd, "\n")] = '\0';
 
     if (strcmp(dnd, "Destroy") == 0 || strcmp(dnd, "destroy") == 0) {
         if (shmctl(shmid, IPC_RMID, NULL) == -1) {
